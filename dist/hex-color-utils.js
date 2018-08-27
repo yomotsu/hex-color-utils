@@ -1,6 +1,6 @@
 /*!
- * color-translator
- * https://github.com/yomotsu/color-translator
+ * hex-color-utils
+ * https://github.com/yomotsu/hex-color-utils
  * (c) 2018 @yomotsu
  * Released under the MIT License.
  */
