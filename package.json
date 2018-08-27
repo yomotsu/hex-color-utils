@@ -1,12 +1,12 @@
 {
-  "name": "color-translator",
+  "name": "hex-color-utils",
   "version": "0.0.0",
   "author": "Yomotsu",
   "license": "MIT",
-  "repository": "yomotsu/color-translator",
-  "jsnext:main": "dist/color-translator.module.js",
-  "module": "dist/color-translator.module.js",
-  "main": "dist/color-translator.js",
+  "repository": "yomotsu/hex-color-utils",
+  "jsnext:main": "dist/hex-color-utils.module.js",
+  "module": "dist/hex-color-utils.module.js",
+  "main": "dist/hex-color-utils.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
     "rollup": "^0.65.0",
@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "npm run watch",
     "watch": "rollup --config --watch",
-    "build": "rollup --config && uglifyjs dist/color-translator.js --comments '/^/*!/' > dist/color-translator.min.js"
+    "build": "rollup --config && uglifyjs dist/hex-color-utils.js --comments '/^/*!/' > dist/hex-color-utils.min.js"
   },
   "keywords": [
     "color",

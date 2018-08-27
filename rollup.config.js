@@ -1,8 +1,8 @@
 import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 const license = `/*!
- * color-translator
- * https://github.com/yomotsu/color-translator
+ * hex-color-utils
+ * https://github.com/yomotsu/hex-color-utils
  * (c) 2018 @yomotsu
  * Released under the MIT License.
  */`;
