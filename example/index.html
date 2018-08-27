@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>=^.^=</title>
+<link rel="stylesheet" href="">
+</head>
+<body>
+
+<script src="../dist/hex-color-utils.js"></script>
+<script>
+
+
+
+console.log( hexColorUtils.toCSSColor( 0xff0000 ) );
+console.log( hexColorUtils.fromCSSColor( '#f00' ) );
+
+console.log( hexColorUtils.toRGBArray( 0xff0000 ) );
+const r = 1; // 0 to 1
+const g = 0; // 0 to 1
+const b = 0; // 0 to 1
+console.log( hexColorUtils.fromRGB( r, g, b ) );
+
+console.log( hexColorUtils.toHSLArray( 0xff0000 ) );
+const hue = 0; // 0 to 1
+const sat = 1; // 0 to 1
+const lightness = 0.5; // 0 to 1
+console.log( hexColorUtils.fromHSL( hue, sat, lightness ) );
+
+console.log( hexColorUtils.lighterThan( 0xff0000, 0xcc0000 ) );
+// true
+
+console.log( hexColorUtils.blendModeDifference( 0xff0000, 0xcc0000 ) );
+
+</script>
+</body>
+</html>

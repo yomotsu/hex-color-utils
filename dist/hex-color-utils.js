@@ -7,7 +7,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.colorHelper = {})));
+	(factory((global.hexColorUtils = {})));
 }(this, (function (exports) { 'use strict';
 
 	function toCSSColor(number) {
@@ -169,7 +169,23 @@
 	    return (r * 255) << 16 ^ (g * 255) << 8 ^ (b * 255) << 0;
 	}
 
-	function fromHue(p, q, t) {
+	function fromHSL(h, s, l) {
+	    var _h = ((h % 1) + 1) % 1;
+	    var _s = Math.max(0, Math.min(1, s));
+	    var _l = Math.max(0, Math.min(1, l));
+	    if (_s === 0) {
+	        return fromRGB(_l, _l, _l);
+	    }
+	    else {
+	        var p = _l <= 0.5 ? _l * (1 + _s) : _l + _s - (_l * _s);
+	        var q = (2 * _l) - p;
+	        var r = hue2rgb(q, p, _h + 1 / 3);
+	        var g = hue2rgb(q, p, _h);
+	        var b = hue2rgb(q, p, _h - 1 / 3);
+	        return fromRGB(r, g, b);
+	    }
+	}
+	function hue2rgb(p, q, t) {
 	    if (t < 0)
 	        t += 1;
 	    if (t > 1)
@@ -181,23 +197,6 @@
 	    if (t < 2 / 3)
 	        return p + (q - p) * 6 * (2 / 3 - t);
 	    return p;
-	}
-
-	function fromHSL(h, s, l) {
-	    var _h = ((h % 1) + 1) % 1;
-	    var _s = Math.max(0, Math.min(1, s));
-	    var _l = Math.max(0, Math.min(1, l));
-	    if (_s === 0) {
-	        return fromRGB(_l, _l, _l);
-	    }
-	    else {
-	        var p = _l <= 0.5 ? _l * (1 + _s) : _l + _s - (_l * _s);
-	        var q = (2 * _l) - p;
-	        var r = fromHue(q, p, _h + 1 / 3);
-	        var g = fromHue(q, p, _h);
-	        var b = fromHue(q, p, _h - 1 / 3);
-	        return fromRGB(r, g, b);
-	    }
 	}
 
 	function fromCSSColor(cssColorString) {
@@ -263,16 +262,50 @@
 
 	function toRGBArray(hexNumber) {
 	    return [
-	        hexNumber >> 16 & 255,
-	        hexNumber >> 8 & 255,
-	        hexNumber & 255
+	        hexNumber >> 16 & 255 / 255,
+	        hexNumber >> 8 & 255 / 255,
+	        hexNumber & 255 / 255
 	    ];
 	}
 
+	function toHSLArray(hexNumber) {
+	    var rgb = toRGBArray(hexNumber);
+	    var r = rgb[0];
+	    var g = rgb[1];
+	    var b = rgb[2];
+	    var max = Math.max(r, g, b);
+	    var min = Math.min(r, g, b);
+	    var lightness = (min + max) / 2;
+	    if (min === max) {
+	        var hue = 0;
+	        var saturation = 0;
+	        return [hue, saturation, lightness];
+	    }
+	    else {
+	        var delta = max - min;
+	        var hue = 0;
+	        var saturation = 0;
+	        saturation = lightness <= 0.5 ? delta / (max + min) : delta / (2 - max - min);
+	        switch (max) {
+	            case r:
+	                hue = (g - b) / delta + (g < b ? 6 : 0);
+	                break;
+	            case g:
+	                hue = (b - r) / delta + 2;
+	                break;
+	            case b:
+	                hue = (r - g) / delta + 4;
+	                break;
+	        }
+	        hue /= 6;
+	        return [hue, saturation, lightness];
+	    }
+	}
+
 	function lighterThan(hexColor0, hexColor1) {
-	    var color0MinElement = Math.min.apply(Math, toRGBArray(hexColor0));
-	    var color1MinElement = Math.min.apply(Math, toRGBArray(hexColor1));
-	    return color0MinElement > color1MinElement;
+	    var lightness0 = toHSLArray(hexColor0)[2];
+	    var lightness1 = toHSLArray(hexColor1)[2];
+	    return lightness0 > lightness1;
 	}
 
 	function blendModeDifference(topColor, bottomColor) {
@@ -281,10 +314,10 @@
 
 	exports.toCSSColor = toCSSColor;
 	exports.fromCSSColor = fromCSSColor;
-	exports.toRGBArray = toRGBArray;
 	exports.fromRGB = fromRGB;
+	exports.toRGBArray = toRGBArray;
 	exports.fromHSL = fromHSL;
-	exports.fromHue = fromHue;
+	exports.toHSLArray = toHSLArray;
 	exports.lighterThan = lighterThan;
 	exports.blendModeDifference = blendModeDifference;
 

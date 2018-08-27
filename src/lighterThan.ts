@@ -1,10 +1,10 @@
-import { toRGBArray } from './toRGBArray';
+import { toHSLArray } from './toHSLArray';
 
 export function lighterThan( hexColor0: number, hexColor1: number ): boolean {
 
-	const color0MinElement = Math.min( ...toRGBArray( hexColor0 ) );
-	const color1MinElement = Math.min( ...toRGBArray( hexColor1 ) );
+	const lightness0 = toHSLArray( hexColor0 )[ 2 ];
+	const lightness1 = toHSLArray( hexColor1 )[ 2 ];
 
-	return color0MinElement > color1MinElement;
+	return lightness0 > lightness1;
 
 }

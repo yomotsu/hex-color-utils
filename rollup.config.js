@@ -13,7 +13,7 @@ export default {
 		{
 			format: 'umd',
 			file: pkg.main,
-			name: 'colorHelper',
+			name: 'hexColorUtils',
 			banner: license,
 			indent: '\t',
 		},
